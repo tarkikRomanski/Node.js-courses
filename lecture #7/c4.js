@@ -58,4 +58,4 @@ const movieList = [
     new Movie('Dumb Dumbest', '1', 2.4),
 ]
 
-console.log(sortObjectsByKey(movieList, 'rate'))
+console.log(Number(movieList[0]))
