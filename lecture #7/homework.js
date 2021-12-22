@@ -20,13 +20,13 @@ function convertMovieToShortMovie(movie) {
     )
 }
 
-function Rate(k1, k2, k3, k4, k5) {
+function Rate(...rates) {
     return {
-        1: k1,
-        2: k2,
-        3: k3,
-        4: k4,
-        5: k5,
+        1: rates[0],
+        2: rates[1],
+        3: rates[2],
+        4: rates[3],
+        5: rates[4],
         getAverage() {
             return (k1 + k2 * 2 + k3 * 3 + k4 * 4 + k5 * 5) / (k1 + k2 + k3 + k4 + k5)
         },
