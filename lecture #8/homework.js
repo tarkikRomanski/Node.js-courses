@@ -1,17 +1,18 @@
 // js is great
 
-function Movie(name, age) {
+function Movie(id, name, age) {
     return {
+        id,
         name,
         age
     }
 }
 
 const movies = [
-    new Movie('Commando', 18),
-    new Movie('Matrix', 18),
-    new Movie('Lord of the Rings', 12),
-    new Movie('Agent 007', 20),
+    new Movie(1, 'Commando', 18),
+    new Movie(2, 'Matrix', 18),
+    new Movie(3, 'Lord of the Rings', 12),
+    new Movie(4, 'Agent 007', 20),
 ];
 
 function getMovieByName(name) {
