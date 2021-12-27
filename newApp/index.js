@@ -1,9 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const multer = require('multer')
 const { movieCheckerController } = require('./controllers/movieChecker')
 
-const upload = multer()
 const app = express()
 const PORT = 3000
 
@@ -35,4 +33,3 @@ app.get('/check-user-age/:movieId/:clientAge', movieCheckerController())
 app.listen(PORT, () => {
     console.log(`Example app listen on http://localhost:${PORT}`)
 })
-
