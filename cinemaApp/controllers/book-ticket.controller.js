@@ -5,6 +5,10 @@ const {
 const {
     getNewTicketId,
 } = require('../services/ticket.service')
+const {
+    sendSuccessResponse,
+    sendErrorResponse,
+} = require('../services/response.service')
 const Ticket = require('../models/ticket.model')
 
 function bookTicketController(req, res) {
@@ -14,32 +18,22 @@ function bookTicketController(req, res) {
     const session = getSessionById(id)
 
     if (!isSessionNotStarted(session)) {
-        res.status(400)
-            .json({
-                type: "error",
-                message: "Session already started!",
-            })
+        sendErrorResponse(res, 'Session already started!')
 
         return
     }
 
     if (seats > session.seats) {
-        res.status(400)
-            .json({
-                type: "error",
-                message: "Not enough seats!",
-            })
+        sendErrorResponse(res, 'Not enough seats!')
 
         return
     }
 
-    console.log(req.userId)
-
-    res.status(201)
-        .json({
-            type: "success",
-            ticket: new Ticket(getNewTicketId(), null, seats, id)
-        })
+    sendSuccessResponse(
+        res,
+        new Ticket(getNewTicketId(), req.userId, seats, id),
+        201,
+    )
 }
 
 module.exports = bookTicketController

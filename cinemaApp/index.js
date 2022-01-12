@@ -5,6 +5,8 @@ const movieByIdController = require('./controllers/movie-by-id.controller')
 const sessionsByMovieIdController = require('./controllers/sessions-by-movie-id.controller')
 const sessionByIdController = require('./controllers/session-by-id.controller')
 const bookTicketController = require('./controllers/book-ticket.controller')
+const unbookTicketController = require('./controllers/unbook-ticket-controller')
+const getTicketListByUser = require('./controllers/get-ticket-list-by-user.controller')
 const getUserIdMiddleware = require('./middlwares/get-user-id.middleware')
 
 const app = express()
@@ -21,7 +23,11 @@ app.get('/movies/:id/sessions', sessionsByMovieIdController)
 
 app.get('/sessions/:id', sessionByIdController)
 
-app.post('/sessions/:id', getUserIdMiddleware, bookTicketController)
+app.post('/sessions/:id/tickets', getUserIdMiddleware, bookTicketController)
+
+app.delete('/tickets/:id', getUserIdMiddleware, unbookTicketController)
+
+app.get('/tickets', getUserIdMiddleware, getTicketListByUser)
 
 app.listen(PORT, () => {
     console.log(`Example app listen on http://localhost:${PORT}`)
