@@ -1,5 +1,6 @@
-function SessionDetailed(startDate, endDate, duration) {
+function SessionDetailed(id, startDate, endDate, duration) {
     return {
+        id,
         startDate,
         endDate,
         duration,
