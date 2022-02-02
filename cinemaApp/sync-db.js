@@ -1,3 +1,17 @@
-const { syncDB } = require('./database/sync')
+const { syncDB, setTestData, getModelsThatDontExist } = require('./database/sync');
 
-syncDB()
+// async function run() {
+//     const modelList = await getModelsThatDontExist()
+//     await syncDB()
+//     setTestData(modelList)
+// }
+//
+// run()
+
+(
+    async () => {
+        const modelList = await getModelsThatDontExist()
+        await syncDB()
+        setTestData(modelList)
+    }
+)()

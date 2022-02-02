@@ -24,7 +24,7 @@ const Movie = sequelize.define(
             field: 'end_rental_date',
         },
         rate: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
             allowNull: false,
         },
     },
