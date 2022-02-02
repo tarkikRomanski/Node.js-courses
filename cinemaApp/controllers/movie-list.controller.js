@@ -1,11 +1,9 @@
-const moviesMock = require('../mocks/movies.mock')
+const { getMoviesGteEndRentalDate } = require('../services/movie.service')
 
-function movieListController(req, res) {
-    res.json(
-        moviesMock.filter(
-            (movie) => movie.endRentalDate >= new Date().getTime()
-        )
-    )
+async function movieListController(req, res) {
+    const result = await getMoviesGteEndRentalDate(new Date())
+
+    res.json(result)
 }
 
 module.exports = movieListController
