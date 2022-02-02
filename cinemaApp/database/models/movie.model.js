@@ -10,8 +10,11 @@ const Movie = sequelize.define(
             autoIncrement: true,
         },
         title: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(150),
             allowNull: false,
+            validate: {
+                len: [3, 150],
+            },
         },
         startRentalDate: {
             type: DataTypes.DATE,
@@ -26,7 +29,27 @@ const Movie = sequelize.define(
         rate: {
             type: DataTypes.FLOAT,
             allowNull: false,
+            get() {
+                const value = this.getDataValue('rate')
+
+                return Math.ceil(value)
+            },
+            set(value) {
+                this.setDataValue('rate', Math.ceil(value))
+            },
         },
+        titleWithRate: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return `${this.getDataValue('title')} - ${this.getDataValue('rate')}`
+            },
+            set(value) {
+                const [title, rate] = value.split(' - ')
+
+                this.setDataValue('title', title)
+                this.setDataValue('rate', Number(rate))
+            },
+        }
     },
     {
         schema: 'app',

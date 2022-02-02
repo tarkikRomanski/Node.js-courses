@@ -8,6 +8,44 @@ const bookTicketController = require('./controllers/book-ticket.controller')
 const unbookTicketController = require('./controllers/unbook-ticket-controller')
 const getTicketListByUser = require('./controllers/get-ticket-list-by-user.controller')
 const getUserIdMiddleware = require('./middlwares/get-user-id.middleware')
+const { ValidationError } = require('sequelize')
+
+const Movie = require('./database/models/movie.model');
+
+// Movie.findAll().then((result) => {
+//     for (const item of result) {
+//         console.log(item.titleWithRate)
+//
+//         item.titleWithRate = 'New Name - 3.4'
+//
+//         console.log(item.titleWithRate)
+//         console.log(item.title)
+//         console.log(item.rate)
+//     }
+// })
+//     (
+//         async () => {
+//             try {
+//                 const result = await Movie.create({
+//                     title: 'A',
+//                     endRentalDate: new Date(),
+//                     rate: 5,
+//                 })
+//             } catch (e) {
+//                 if (e instanceof ValidationError) {
+//                     for (const error of e.errors) {
+//                         console.log({
+//                             message: error.message,
+//                             value: error.value,
+//                             validator: error.validatorKey,
+//                             args: error.validatorArgs,
+//                         })
+//                     }
+//                 }
+//             }
+//
+//         }
+//     )()
 
 const app = express()
 const PORT = 3000
