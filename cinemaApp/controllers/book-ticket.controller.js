@@ -1,7 +1,5 @@
-const {
-    getSessionById,
-    isSessionNotStarted,
-} = require('../services/session.service')
+const sessionService = require('../services/session.service')
+const ticketService = require('../services/ticket.service')
 const {
     getNewTicketId,
 } = require('../services/ticket.service')
@@ -10,30 +8,46 @@ const {
     sendErrorResponse,
 } = require('../services/response.service')
 const Ticket = require('../models/ticket.model')
+const {NotEnoughSeatsError} = require("../errors/not-enough-seats.error");
+const {SessionAlreadyStartedError} = require("../errors/session-already-started.error");
 
-function bookTicketController(req, res) {
-    const { id } = req.params
-    const { seats } = req.body
+async function bookTicketController(req, res) {
+    const { id: sessionId } = req.params
+    const { seatsQuantity, sessionDate } = req.body
 
-    const session = getSessionById(id)
+    const session = await sessionService.getById(sessionId)
 
-    if (!isSessionNotStarted(session)) {
-        sendErrorResponse(res, 'Session already started!')
+    try {
+        const result = await ticketService.create(
+            session,
+            {
+                seatsQuantity,
+                sessionDate,
+                userId: req.userId,
+                sessionId: sessionId
+            },
+        )
 
-        return
+        sendSuccessResponse(
+            res,
+            result,
+            201,
+        )
+    } catch (err) {
+        if (err instanceof NotEnoughSeatsError) {
+            sendErrorResponse(res, 'Not enough seats!')
+
+            return
+        }
+
+        if (err instanceof SessionAlreadyStartedError) {
+            sendErrorResponse(res, 'Session already started!')
+
+            return
+        }
+
+        throw err
     }
-
-    if (seats > session.seats) {
-        sendErrorResponse(res, 'Not enough seats!')
-
-        return
-    }
-
-    sendSuccessResponse(
-        res,
-        new Ticket(getNewTicketId(), req.userId, seats, id),
-        201,
-    )
 }
 
 module.exports = bookTicketController

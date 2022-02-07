@@ -8,9 +8,8 @@ const bookTicketController = require('./controllers/book-ticket.controller')
 const unbookTicketController = require('./controllers/unbook-ticket-controller')
 const getTicketListByUser = require('./controllers/get-ticket-list-by-user.controller')
 const getUserIdMiddleware = require('./middlwares/get-user-id.middleware')
-const { ValidationError } = require('sequelize')
 
-const Movie = require('./database/models/movie.model');
+const { Session, Movie } = require('./database/models');
 
 // Movie.findAll().then((result) => {
 //     for (const item of result) {
@@ -46,6 +45,9 @@ const Movie = require('./database/models/movie.model');
 //
 //         }
 //     )()
+
+// Movie.findOne({ include: Session }).then(console.log)
+// Session.findOne({ include: Movie }).then((result) => console.log(result.Movie.title))
 
 const app = express()
 const PORT = 3000

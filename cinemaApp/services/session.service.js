@@ -1,5 +1,6 @@
 const SessionDetailed = require('../models/session-detailed.model')
-const sessionsMock = require("../mocks/sessions.mock");
+
+const { Session } = require('../database/models')
 
 function convertSessionToSessionDetailed(session) {
     const currentDate = new Date()
@@ -23,25 +24,15 @@ function convertSessionToSessionDetailed(session) {
 }
 
 function getSessionsByIds(idList) {
-    const sessions = []
-
-    for (const session of sessionsMock) {
-        if (!idList.includes(session.id)) {
-            continue
+    return Session.findAll({
+        where: {
+            id: idList,
         }
-
-        sessions.push(session)
-
-        if (sessions.length === idList.length) {
-            break
-        }
-    }
-
-    return sessions
+    })
 }
 
-function getSessionById(id) {
-    return sessionsMock.find((session) => session.id === Number(id))
+function getById(id) {
+    return Session.findByPk(id)
 }
 
 function isSessionNotStarted(session) {
@@ -61,6 +52,6 @@ function isSessionNotStarted(session) {
 module.exports = {
     convertSessionToSessionDetailed,
     getSessionsByIds,
-    getSessionById,
+    getById,
     isSessionNotStarted,
 }

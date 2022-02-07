@@ -1,5 +1,5 @@
-const Movie = require("../database/models/movie.model");
-const {Op} = require("sequelize");
+const { Movie } = require("../database/models");
+const { Op } = require("sequelize");
 
 function getMoviesGteEndRentalDate(date) {
     return Movie.findAll({

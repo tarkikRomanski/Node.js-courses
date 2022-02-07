@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../index')
+const Session = require('./session.model')
 
 const Movie = sequelize.define(
     'Movie',
