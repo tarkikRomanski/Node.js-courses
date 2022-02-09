@@ -9,9 +9,9 @@ async function create(session, data) {
     }
 
     const sessionDate = new Date(data.sessionDate)
-    const preparedDate = `${sessionDate.getFullYear()}-${sessionDate.getMonth()}-${sessionDate.getDate()}`
+    const preparedDate = `${sessionDate.getFullYear()}-${sessionDate.getMonth()+1}-${sessionDate.getDate()}`
 
-    const result = await Ticket.sequelize.query(
+    const [{sum: reservedTicketsQuantity}] = await Ticket.sequelize.query(
         `SELECT sum(seats_quantity) FROM app.tickets
            WHERE deleted_at IS NULL
                AND session_id = $sessionId
@@ -26,7 +26,7 @@ async function create(session, data) {
         },
     )
 
-    console.log(result)
+    console.log(reservedTicketsQuantity)
 
     if (data.seatsQuantity > session.seatsQuantity - Number(reservedTicketsQuantity)) {
         throw new NotEnoughSeatsError
